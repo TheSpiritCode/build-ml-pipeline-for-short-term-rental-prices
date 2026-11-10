@@ -105,7 +105,9 @@ def go(config: DictConfig):
             # step
 
             _ = mlflow.run(
-                os.path.join(hydra.utils.get_original_cwd(), "src", "train_random_forest"),
+                os.path.join(
+                    hydra.utils.get_original_cwd(), "src", "train_random_forest"
+                ),
                 "main",
                 parameters={
                     "trainval_artifact": "trainval_data.csv:latest",
@@ -114,17 +116,20 @@ def go(config: DictConfig):
                     "stratify_by": config["modeling"]["stratify_by"],
                     "rf_config": rf_config,
                     "max_tfidf_features": config["modeling"]["max_tfidf_features"],
-                    "output_artifact": "random_forest_export"
+                    "output_artifact": "random_forest_export",
                 },
             )
 
         if "test_regression_model" in active_steps:
-
-            ##################
-            # Implement here #
-            ##################
-
-            pass
+            _ = mlflow.run(
+                f"{config['main']['components_repository']}/test_regression_model",
+                "main",
+                env_manager="conda",
+                parameters={
+                    "mlflow_model": "random_forest_export:prod",
+                    "test_dataset": "test_data.csv:latest"
+                },
+            )
 
 
 if __name__ == "__main__":

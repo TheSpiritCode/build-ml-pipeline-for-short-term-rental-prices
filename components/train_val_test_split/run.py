@@ -4,11 +4,13 @@ This script splits the provided dataframe in test and remainder
 """
 import argparse
 import logging
-import pandas as pd
-import wandb
 import tempfile
+
+import pandas as pd
 from sklearn.model_selection import train_test_split
 from wandb_utils.log_artifact import log_artifact
+
+import wandb
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)-15s %(message)s")
 logger = logging.getLogger()

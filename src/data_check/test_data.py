@@ -67,8 +67,8 @@ def test_similar_neigh_distrib(
 
 
 def test_row_count(data):
-    assert 150_00 < data.shape[0] < 1_000_000
+    assert 15_000 < data.shape[0] < 1_000_000
 
 
 def test_price_range(data, min_price, max_price):
-    assert all(data["price"].between(min_price, max_price))
+    assert data["price"].between(min_price, max_price).all()
